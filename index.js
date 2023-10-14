@@ -58,17 +58,17 @@ bot.on('text', (ctx) => {
   const messageText = ctx.message.text;
   const userId = ctx.message.from.id;
 
-  // Log the incoming message
+  // Log de mensagens recebidas
   console.log(`Received message from user ${userId}: ${messageText}`);
 
-  // You can also store the incoming message or perform any other required actions.
+  // Salvar mensagens em banco de dados
 });
 
 // Start the bot
 bot.launch();
 
 // url 
-// https://api.telegram.org/bot6544076832:AAFFVO_T7JSmfDta5K9rutStXvK1kdhw7Qw/getUpdates
+// https://api.telegram.org/token do bot/getUpdates
 
 app.listen(port, async () => {
   console.log(`Server is running on http://localhost:${port}`);
