@@ -10,10 +10,10 @@ const axios = require('axios')
 
 const port = 5000
 
-const {TOKEN, SERVER_URL} = process.env
+const { TOKEN, SERVER_URL } = process.env
 const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`
 const URI = `/webhook/${TOKEN}`
-const WEBHOOK_URL = SERVER_URL+URI
+const WEBHOOK_URL = SERVER_URL + URI
 
 // API do telegram
 const { Telegraf } = require('telegraf')
@@ -33,10 +33,12 @@ const init = async () => {
 }
 
 app.post('/send-message', (req, res) => {
-  const messageText = req.body.message; 
+  const messageText = req.body.message;
+
+  console.log('Incoming message request:', req.body);
 
   // Enviando mensagem pelo bot e checando a resposta
-  bot.telegram.sendMessage(6186971422, messageText) 
+  bot.telegram.sendMessage(6186971422, messageText)
     .then(() => {
       res.status(200).send('Message sent successfully');
     })
@@ -45,6 +47,25 @@ app.post('/send-message', (req, res) => {
       res.status(500).send('Failed to send message');
     });
 })
+
+app.post(URI, async (req, res) => {
+  console.log(req.body)
+
+  return res.send()
+})
+
+bot.on('text', (ctx) => {
+  const messageText = ctx.message.text;
+  const userId = ctx.message.from.id;
+
+  // Log the incoming message
+  console.log(`Received message from user ${userId}: ${messageText}`);
+
+  // You can also store the incoming message or perform any other required actions.
+});
+
+// Start the bot
+bot.launch();
 
 // url 
 // https://api.telegram.org/bot6544076832:AAFFVO_T7JSmfDta5K9rutStXvK1kdhw7Qw/getUpdates
