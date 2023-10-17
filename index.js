@@ -21,6 +21,7 @@ const WEBHOOK_URL = SERVER_URL + URI
 
 // API do telegram
 const TelegramBot = require('./bot/bot');
+const Message = require('./models/message')
 
 const botInstance = new TelegramBot()
 
@@ -37,32 +38,29 @@ const init = async () => {
 
 app.use('/api', apiRoutes)
 
-/*app.post('/send-message', (req, res) => {
-  const messageText = req.body.message;
-
-  console.log('Incoming message request:', req.body);
-
-  // Enviando mensagem pelo bot e checando a resposta
-  bot.telegram.sendMessage(6186971422, messageText)
-    .then(() => {
-      res.status(200).send('Message sent successfully');
-    })
-    .catch((error) => {
-      console.error('Error sending message:', error);
-      res.status(500).send('Failed to send message');
-    });
-})*/
-
 botInstance.bot.launch();
 
-botInstance.bot.on('text', (ctx) => {
-  // Handle received messages
+botInstance.bot.on('text', async (ctx) => {
   const messageText = ctx.message.text;
   const userId = ctx.message.from.id;
   console.log(`Received message from user ${userId}: ${messageText}`);
 
-  // Log the message and save it to your database
-  // ...
+  // Save the received message to MongoDB
+  const timestamp = new Date();
+
+  const newMessage = new Message({
+    text: messageText,
+    userId,
+    timestamp: timestamp,
+    isUserMessage: false, // For outgoing messages sent by the bot
+  });
+  
+  try {
+    await newMessage.save();;
+    console.log('Message saved to MongoDB');
+  } catch (error) {
+    console.error('Error saving message to MongoDB:', error);
+  }
 });
 
 // url 
