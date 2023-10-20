@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const messageSchema = new mongoose.Schema({
   text: String,
   userId: Number,
-  timestamp: Date,
+  timestamp: String,
   isUserMessage: Boolean,
 });
 

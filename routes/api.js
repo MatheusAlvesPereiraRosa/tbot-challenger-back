@@ -9,19 +9,19 @@ const botInstance = new TelegramBot();
 
 router.post('/sendMessage', async (req, res) => {
   const messageText = req.body.message;
+  const timestamp = req.body.timestamp
 
   try {
     // Usando a instância do bot para mandar mensagens
     await botInstance.bot.telegram.sendMessage(6186971422, messageText);
 
     const userId = req.body.userId;
-    const timestamp = new Date();
 
     const newMessage = new Message({
       text: messageText,
       userId,
       timestamp: timestamp, // Campo de tempo para saber quando a mensagem foi enviada
-      isUserMessage: false, // Campo booleano para distinguir se é o usuário ou o bot
+      isUserMessage: true, // Campo booleano para distinguir se é o usuário ou o bot
     });
 
     await newMessage.save();

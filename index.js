@@ -45,14 +45,14 @@ botInstance.bot.on('text', async (ctx) => {
   const userId = ctx.message.from.id;
   console.log(`Received message from user ${userId}: ${messageText}`);
 
-  // Save the received message to MongoDB
-  const timestamp = new Date();
+  // Salvando as mensagens recebidas no mongoDB atlas
+  const timestamp = new Date().toLocaleString();
 
   const newMessage = new Message({
     text: messageText,
     userId,
     timestamp: timestamp,
-    isUserMessage: false, // For outgoing messages sent by the bot
+    isUserMessage: false,
   });
   
   try {
