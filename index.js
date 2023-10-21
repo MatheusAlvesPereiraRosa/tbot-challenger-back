@@ -45,9 +45,10 @@ app.use('/api', apiRoutes)
 
 botInstance.bot.launch();
 
-// Use your WebSocket module to handle WebSocket connections
+// Usando modulo de websocket para lidar com as conexões
 io(server);
 
+// Função que irá transmitir a mensagem em tempo real
 const broadcastTelegramMessages = io(server);
 
 // Recebendo as mensagens do usuário
@@ -56,7 +57,6 @@ botInstance.bot.on('text', async (ctx) => {
   const userId = ctx.message.from.id;
   console.log(`Received message from user ${userId}: ${messageText}`);
 
-  // Create a new message document
   const timestamp = new Date().toLocaleString();
 
   const newMessage = new Message({
@@ -67,11 +67,11 @@ botInstance.bot.on('text', async (ctx) => {
   });
 
   try {
-    // Save the new message to the database
+    // Salvando mensagem
     await newMessage.save();
     console.log('Message saved to MongoDB');
 
-    // Emit the new message to all connected WebSocket clients
+    // Emitindo a mensagem para todos os clientes conectados
     broadcastTelegramMessages(newMessage);
   } catch (error) {
     console.error('Error saving message to MongoDB:', error);
@@ -90,6 +90,6 @@ app.listen(port, async () => {
   await init()
 });
 
-// Enable graceful stop
+// Parar o bot
 process.once('SIGINT', () => botInstance.bot.stop('SIGINT'))
 process.once('SIGTERM', () => botInstance.bot.stop('SIGTERM'))

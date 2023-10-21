@@ -10,14 +10,14 @@ module.exports = (server) => {
   io.on('connection', (socket) => {
     console.log('A user connected.');
 
-    // Handle disconnection
+    // Lidando com a disconexão
     socket.on('disconnect', () => {
       console.log('A user disconnected.');
     });
   });
 
-  // Handle incoming messages from your server (Telegram bot)
-  // Broadcast these messages to connected clients
+  // Lidando com mensagens que chegam do bot do telegram
+  // Função para transmitir mensagens que chegam
   const broadcastTelegramMessages = (message) => {
     io.emit('message', message);
   };
