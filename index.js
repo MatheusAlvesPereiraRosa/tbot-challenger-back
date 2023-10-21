@@ -11,6 +11,11 @@ const axios = require('axios')
 const apiRoutes = require('./routes/api');
 const databaseConfig = require('./config/db');
 
+// importes do websocket
+const http = require('http');
+const io = require('./sockets/socket');
+const server = http.createServer(app);
+
 const port = 5000
 
 // URL's
@@ -40,12 +45,18 @@ app.use('/api', apiRoutes)
 
 botInstance.bot.launch();
 
+// Usando modulo de websocket para lidar com as conexões
+io(server);
+
+// Função que irá transmitir a mensagem em tempo real
+const broadcastTelegramMessages = io(server);
+
+// Recebendo as mensagens do usuário
 botInstance.bot.on('text', async (ctx) => {
   const messageText = ctx.message.text;
   const userId = ctx.message.from.id;
   console.log(`Received message from user ${userId}: ${messageText}`);
 
-  // Salvando as mensagens recebidas no mongoDB atlas
   const timestamp = new Date().toLocaleString();
 
   const newMessage = new Message({
@@ -54,10 +65,14 @@ botInstance.bot.on('text', async (ctx) => {
     timestamp: timestamp,
     isUserMessage: false,
   });
-  
+
   try {
-    await newMessage.save();;
+    // Salvando mensagem
+    await newMessage.save();
     console.log('Message saved to MongoDB');
+
+    // Emitindo a mensagem para todos os clientes conectados
+    broadcastTelegramMessages(newMessage);
   } catch (error) {
     console.error('Error saving message to MongoDB:', error);
   }
@@ -66,11 +81,15 @@ botInstance.bot.on('text', async (ctx) => {
 // url 
 // https://api.telegram.org/token do bot/getUpdates
 
+server.listen(3000, () => {
+  console.log('Websocket is running on port 3000');
+});
+
 app.listen(port, async () => {
   console.log(`Server is running on http://localhost:${port}`);
   await init()
 });
 
-// Enable graceful stop
+// Parar o bot
 process.once('SIGINT', () => botInstance.bot.stop('SIGINT'))
 process.once('SIGTERM', () => botInstance.bot.stop('SIGTERM'))
