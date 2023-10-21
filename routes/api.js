@@ -1,6 +1,7 @@
 const express = require('express');
 const TelegramBot = require('../bot/bot');
 const Message = require('../models/message')
+const Chat = require('../models/chat')
 
 const router = express.Router();
 
@@ -8,7 +9,7 @@ const router = express.Router();
 const botInstance = new TelegramBot();
 
 router.post('/sendMessage', async (req, res) => {
-  const messageText = req.body.message;
+  const messageText = req.body.message
   const timestamp = req.body.timestamp
 
   try {

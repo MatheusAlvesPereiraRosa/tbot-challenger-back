@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const messageSchema = new mongoose.Schema({
   text: String,
   userId: Number,
+  chatId: String,
   timestamp: String,
   isUserMessage: Boolean,
 });
