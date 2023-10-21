@@ -26,7 +26,13 @@ router.post('/sendMessage', async (req, res) => {
 
     await newMessage.save();
 
-    res.status(200).send('Message sent and saved successfully');
+    let message = {
+      text: messageText,
+      userId, timestamp,
+      isUserMessage: true
+    }
+
+    res.status(200).json({ status: 'Message sent and saved successfully', message: message }); // Envio o status e a mensagem via json para atualizar o store sem precisar fazer a requisição novamente
 
   } catch (error) {
     console.error('Error sending message:', error);
