@@ -70,7 +70,9 @@ router.post('/sendMessage', async (req, res) => {
 
     let message = {
       text: messageText,
-      userId, timestamp,
+      userId,
+      timestamp,
+      chatId,
       isUserMessage: true
     }
 
