@@ -26,7 +26,10 @@ const WEBHOOK_URL = SERVER_URL + URI
 
 // API do telegram
 const TelegramBot = require('./bot/bot');
+
+// Models do banco de dados
 const Message = require('./models/message')
+const Chat = require('./models/chat')
 
 const botInstance = new TelegramBot()
 
@@ -45,6 +48,11 @@ app.use('/api', apiRoutes)
 
 botInstance.bot.launch();
 
+function generateChatId(userId) {
+  const timestamp = Date.now(); // Current time in milliseconds
+  return `${userId}-${timestamp}`;
+}
+
 // Usando modulo de websocket para lidar com as conexões
 io(server);
 
@@ -55,26 +63,64 @@ const broadcastTelegramMessages = io(server);
 botInstance.bot.on('text', async (ctx) => {
   const messageText = ctx.message.text;
   const userId = ctx.message.from.id;
+
   console.log(`Received message from user ${userId}: ${messageText}`);
 
-  const timestamp = new Date().toLocaleString();
+  // Check if the user's ID is registered
+  const existingChat = await Chat.findOne({ userId });
 
-  const newMessage = new Message({
-    text: messageText,
-    userId,
-    timestamp: timestamp,
-    isUserMessage: false,
-  });
+  if (existingChat) {
+    // User's chat ID already exists, use it
+    const chatId = existingChat.chatId;
 
-  try {
-    // Salvando mensagem
-    await newMessage.save();
-    console.log('Message saved to MongoDB');
+    const timestamp = new Date().toLocaleString();
 
-    // Emitindo a mensagem para todos os clientes conectados
-    broadcastTelegramMessages(newMessage);
-  } catch (error) {
-    console.error('Error saving message to MongoDB:', error);
+    const newMessage = new Message({
+      text: messageText,
+      userId,
+      chatId: chatId,
+      timestamp: timestamp,
+      isUserMessage: false,
+    });
+
+    try {
+      // Salvando mensagem
+      await newMessage.save();
+      console.log('Message saved to MongoDB');
+
+      // Emitindo a mensagem para todos os clientes conectados
+      broadcastTelegramMessages(newMessage);
+    } catch (error) {
+      console.error('Error saving message to MongoDB:', error);
+    }
+  } else {
+    // Generate a new chat ID for this user
+    chatId = generateChatId(userId);
+
+    // Create a new chat entry in the database
+    const newChat = new Chat({ userId, chatId });
+    await newChat.save();
+
+    const timestamp = new Date().toLocaleString();
+
+    const newMessage = new Message({
+      text: messageText,
+      userId,
+      chatId: chatId,
+      timestamp: timestamp,
+      isUserMessage: false,
+    });
+
+    try {
+      // Salvando mensagem
+      await newMessage.save();
+      console.log('Message saved to MongoDB');
+
+      // Emitindo a mensagem para todos os clientes conectados
+      broadcastTelegramMessages(newMessage);
+    } catch (error) {
+      console.error('Error saving message to MongoDB:', error);
+    }
   }
 });
 
