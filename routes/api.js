@@ -2,13 +2,14 @@ const express = require('express');
 const TelegramBot = require('../bot/bot');
 const Message = require('../models/message')
 const Chat = require('../models/chat')
+const protectRoute = require('../middleware/userAuth');
 
 const router = express.Router();
 
 // Criando um instância do bot
 const botInstance = new TelegramBot();
 
-router.get('/messages/:chatId', async (req, res) => {
+router.get('/messages/:chatId', protectRoute, async (req, res) => {
   const chatId = req.params.chatId;
 
   try {
@@ -23,7 +24,7 @@ router.get('/messages/:chatId', async (req, res) => {
   }
 });
 
-router.get('/getHistory', async (req, res) => {
+router.get('/getHistory', protectRoute, async (req, res) => {
   await Message.find().sort({ timestamp: -1 })
     .then((messages) => {
       res.json(messages)
@@ -35,7 +36,7 @@ router.get('/getHistory', async (req, res) => {
     });
 })
 
-router.get('/getChats', async (req, res) => {
+router.get('/getChats', protectRoute, async (req, res) => {
   await Chat.find()
     .then((chats) => {
       res.json(chats)
@@ -47,7 +48,7 @@ router.get('/getChats', async (req, res) => {
     });
 })
 
-router.post('/sendMessage', async (req, res) => {
+router.post('/sendMessage', protectRoute, async (req, res) => {
   const messageText = req.body.message
   const timestamp = req.body.timestamp
   const chatId = req.body.chatId

@@ -8,13 +8,14 @@ const cors = require('cors')
 const axios = require('axios')
 
 // importes de arquivos
-const apiRoutes = require('./routes/api');
-const databaseConfig = require('./config/db');
+const apiRoutes = require('./routes/api')
+const authRoutes = require('./routes/auth')
+const databaseConfig = require('./config/db')
 
 // importes do websocket
-const http = require('http');
-const io = require('./sockets/socket');
-const server = http.createServer(app);
+const http = require('http')
+const io = require('./sockets/socket')
+const server = http.createServer(app)
 
 const port = 5000
 
@@ -45,12 +46,13 @@ const init = async () => {
 }
 
 app.use('/api', apiRoutes)
+app.use('/auth', authRoutes)
 
-botInstance.bot.launch();
+botInstance.bot.launch()
 
 function generateChatId(userId) {
-  const timestamp = Date.now(); // Current time in milliseconds
-  return `${userId}-${timestamp}`;
+  const timestamp = Date.now() // Current time in milliseconds
+  return `${userId}-${timestamp}`
 }
 
 // Usando modulo de websocket para lidar com as conexões
@@ -71,7 +73,7 @@ botInstance.bot.on('text', async (ctx) => {
 
   if (existingChat) {
     // User's chat ID already exists, use it
-    const chatId = existingChat.chatId;
+    const chatId = existingChat.chatId
 
     const timestamp = new Date().toLocaleString();
 
@@ -86,10 +88,10 @@ botInstance.bot.on('text', async (ctx) => {
     try {
       // Salvando mensagem
       await newMessage.save();
-      console.log('Message saved to MongoDB');
+      console.log('Message saved to MongoDB')
 
       // Emitindo a mensagem para todos os clientes conectados
-      broadcastTelegramMessages(newMessage);
+      broadcastTelegramMessages(newMessage)
     } catch (error) {
       console.error('Error saving message to MongoDB:', error);
     }
@@ -98,10 +100,10 @@ botInstance.bot.on('text', async (ctx) => {
     chatId = generateChatId(userId);
 
     // Create a new chat entry in the database
-    const newChat = new Chat({ userId, chatId });
-    await newChat.save();
+    const newChat = new Chat({ userId, chatId })
+    await newChat.save()
 
-    const timestamp = new Date().toLocaleString();
+    const timestamp = new Date().toLocaleString()
 
     const newMessage = new Message({
       text: messageText,
@@ -114,12 +116,12 @@ botInstance.bot.on('text', async (ctx) => {
     try {
       // Salvando mensagem
       await newMessage.save();
-      console.log('Message saved to MongoDB');
+      console.log('Message saved to MongoDB')
 
       // Emitindo a mensagem para todos os clientes conectados
-      broadcastTelegramMessages(newMessage);
+      broadcastTelegramMessages(newMessage)
     } catch (error) {
-      console.error('Error saving message to MongoDB:', error);
+      console.error('Error saving message to MongoDB:', error)
     }
   }
 });
@@ -128,11 +130,11 @@ botInstance.bot.on('text', async (ctx) => {
 // https://api.telegram.org/token do bot/getUpdates
 
 server.listen(3000, () => {
-  console.log('Websocket is running on port 3000');
+  console.log('Websocket is running on port 3000')
 });
 
 app.listen(port, async () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on http://localhost:${port}`)
   await init()
 });
 
