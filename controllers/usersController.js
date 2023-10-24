@@ -12,6 +12,14 @@ module.exports = {
   registerUser: async (req, res) => {
     const { username, password } = req.body;
 
+    if (username === '' || undefined) {
+      return res.status(500).json({message: 'O nome do usuário não foi informado'})
+    }
+
+    if (password === '' || undefined) {
+      return res.status(500).json({message: 'A senha não foi informada'})
+    }
+
     try {
       // Checando se o nome de usuário já existe
       const existingUser = await User.findOne({ username });
@@ -32,7 +40,7 @@ module.exports = {
       // Salvando o usuário no banco de dados
       await newUser.save();
 
-      return res.status(201).json({ message: 'User registered successfully' });
+      return res.status(200).json({ message: 'User registered successfully' });
     } catch (error) {
       console.error('Error registering user:', error);
       return res.status(500).json({ message: 'Failed to register user' });
@@ -41,6 +49,14 @@ module.exports = {
 
   loginUser: async (req, res) => {
     const { username, password } = req.body;
+
+    if (username === '' || undefined) {
+      return res.status(400).json({message: 'O nome do usuário não foi informado'})
+    }
+
+    if (password === '' || undefined) {
+      return res.status(400).json({message: 'A senha não foi informada'})
+    }
 
     try {
       // Achando o usuário pelo nome
@@ -73,6 +89,10 @@ module.exports = {
   resetPassword: async (req, res) => {
     const { username } = req.body;
 
+    if (username === '' || undefined) {
+      return res.status(400).json({message: 'O nome do usuário não foi informado'})
+    }
+
     if (username === "" || !username) {
       return res.status(500).json({message: 'O nome do usuário não foi mandado'})
     } 
@@ -92,6 +112,10 @@ module.exports = {
 
   changePassword: async (req, res) => {
     const { token, password } = req.body;
+
+    if (password === '' || undefined) {
+      return res.status(400).json({message: 'A senha não foi informada'})
+    }
   
     try {
       // Verificando o token

@@ -2,6 +2,8 @@ const TelegramBot = require('../bot/bot');
 const Message = require('../models/message')
 const Chat = require('../models/chat')
 
+const botInstance = new TelegramBot();
+
 module.exports = {
   sendMessage: async (req, res) => {
     const messageText = req.body.message

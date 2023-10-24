@@ -12,6 +12,5 @@ router.post('/changePassword', userController.changePassword);
 router.get('/protected', authenticateUser, (req, res) => {
   res.json({ message: 'You have access to this protected route' });
 });
-router.get('/logout', userController.logout)
 
 module.exports = router;
