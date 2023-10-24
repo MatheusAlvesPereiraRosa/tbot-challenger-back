@@ -25,7 +25,7 @@ module.exports = {
       const existingUser = await User.findOne({ username });
 
       if (existingUser) {
-        return res.status(400).json({ message: 'Username already exists' });
+        return res.status(400).json({ message: 'Nome de usuário já existe' });
       }
 
       // Gerando hash da senha
@@ -40,7 +40,7 @@ module.exports = {
       // Salvando o usuário no banco de dados
       await newUser.save();
 
-      return res.status(200).json({ message: 'User registered successfully' });
+      return res.status(200).json({ message: 'Usuário cadastrado com sucesso' });
     } catch (error) {
       console.error('Error registering user:', error);
       return res.status(500).json({ message: 'Failed to register user' });
@@ -51,11 +51,11 @@ module.exports = {
     const { username, password } = req.body;
 
     if (username === '' || undefined) {
-      return res.status(400).json({message: 'O nome do usuário não foi informado'})
+      return res.status(500).json({message: 'O nome do usuário não foi informado'})
     }
 
     if (password === '' || undefined) {
-      return res.status(400).json({message: 'A senha não foi informada'})
+      return res.status(500).json({message: 'A senha não foi informada'})
     }
 
     try {
@@ -63,14 +63,14 @@ module.exports = {
       const user = await User.findOne({ username });
 
       if (!user) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+        return res.status(401).json({ message: 'Usuário inválido' });
       }
 
       // Comparando as senhas
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+        return res.status(401).json({ message: 'Senha inválida' });
       }
 
       // Gerando o JWT para a autenticação
@@ -79,35 +79,31 @@ module.exports = {
       });
 
       console.log("Login sucess")
-      return res.status(200).cookie('token', token, { httpOnly: true }).json({ message: 'Login successful', token })
+      return res.status(200).cookie('token', token, { httpOnly: true }).json({ message: 'Login bem sucedido', token })
     } catch (error) {
       console.error('Error during login:', error);
-      return res.status(500).json({ message: 'Failed to log in' });
+      return res.status(500).json({ message: 'Falha ao logar' });
     }
   },
 
   resetPassword: async (req, res) => {
     const { username } = req.body;
 
-    if (username === '' || undefined) {
+    if (username === '' || undefined || !username) {
       return res.status(400).json({message: 'O nome do usuário não foi informado'})
     }
-
-    if (username === "" || !username) {
-      return res.status(500).json({message: 'O nome do usuário não foi mandado'})
-    } 
   
     // Procurando usuário no banco de dados
     const user = await User.findOne({ username });
   
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: 'Usuário inexistente' });
     }
   
     // Gerando o token para redefinir a senha
-    const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id }, SECRET_KEY, { expiresIn: '1h' });
   
-    res.status(200).json({ message: 'Password reset token sent', token });
+    res.status(200).json({ message: 'Token para resetar senha enviado', token });
   },
 
   changePassword: async (req, res) => {
@@ -119,18 +115,18 @@ module.exports = {
   
     try {
       // Verificando o token
-      const decodedToken = jwt.verify(token, 'your-secret-key');
+      const decodedToken = jwt.verify(token, SECRET_KEY);
   
       // Checando se o token expirou
       if (decodedToken.exp < Date.now() / 1000) {
-        return res.status(400).json({ message: 'Token expired' });
+        return res.status(400).json({ message: 'Token expirado' });
       }
   
       // Achando usuário por ID
       const user = await User.findById(decodedToken.userId);
   
       if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+        return res.status(404).json({ message: 'Usuário não achado' });
       }
   
       // Gerando hash da senha
@@ -140,10 +136,10 @@ module.exports = {
       user.password = hashedPassword;
       await user.save();
   
-      res.status(200).json({ message: 'Password changed successfully' });
+      res.status(200).json({ message: 'Senha mudada com sucesso' });
     } catch (error) {
-      console.error('Error during password reset:', error);
-      res.status(500).json({ message: 'Failed to reset password' });
+      console.error('Erro durante o reset da senha', error);
+      res.status(500).json({ message: 'Falha ao resetar senha' });
     }
   }
 };
