@@ -1,4 +1,3 @@
-// Model de mensagem da aplicação
 const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema({

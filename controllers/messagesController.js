@@ -34,11 +34,11 @@ module.exports = {
         isUserMessage: true
       }
 
-      res.status(200).json({ status: 'Message sent and saved successfully', message: message }); // Envio o status e a mensagem via json para atualizar o store sem precisar fazer a requisição novamente
+      res.status(200).json({ status: 'Mensagem enviado e salva com sucesso', message: message }); // Envio o status e a mensagem via json para atualizar o store sem precisar fazer a requisição novamente
 
     } catch (error) {
-      console.error('Error sending message:', error);
-      res.status(500).send('Failed to send message');
+      console.error('Erro ao enviar mensagem:', error);
+      res.status(500).send('Falha ao enviar mensagem');
     }
   },
 
@@ -46,11 +46,11 @@ module.exports = {
     await Chat.find()
       .then((chats) => {
         res.json(chats)
-        console.log('Retrieved chats:', chats);
+        console.log('Chats recuperados:', chats);
       })
       .catch((error) => {
-        console.error('Error while retrieving messages:', error);
-        res.status(500).send('Failed to retrieve the messages:' + error)
+        console.error('Erro ao receber mensagens:', error);
+        res.status(500).send('Falha ao recuperar mensagens:' + error)
       });
   },
 
@@ -58,11 +58,11 @@ module.exports = {
     await Message.find().sort({ timestamp: -1 })
       .then((messages) => {
         res.json(messages)
-        console.log('Retrieved messages:', messages);
+        console.log('Mensagens recuperadas:', messages);
       })
       .catch((error) => {
         console.error('Error while retrieving messages:', error);
-        res.status(500).send('Failed to retrieve the messages:' + error)
+        res.status(500).send('Erro ao recuperar mensagens:' + error)
       });
   },
 
@@ -76,8 +76,8 @@ module.exports = {
       // Send the retrieved messages as a response
       res.status(200).json(messages);
     } catch (error) {
-      console.error('Error fetching messages:', error);
-      res.status(500).send('Failed to fetch messages');
+      console.error('Erro ao recuperar mensagens do chat:', error);
+      res.status(500).send('Erro ao recuperar mensagens do chat específico');
     }
   }
 }

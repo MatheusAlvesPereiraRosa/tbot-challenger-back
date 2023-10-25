@@ -51,7 +51,7 @@ app.use('/auth', authRoutes)
 botInstance.bot.launch()
 
 function generateChatId(userId) {
-  const timestamp = Date.now() // Current time in milliseconds
+  const timestamp = Date.now() // Tempo aproximado em milisegundos
   return `${userId}-${timestamp}`
 }
 
@@ -68,11 +68,11 @@ botInstance.bot.on('text', async (ctx) => {
 
   console.log(`Received message from user ${userId}: ${messageText}`);
 
-  // Check if the user's ID is registered
+  // Checando se o chat já existe
   const existingChat = await Chat.findOne({ userId });
 
   if (existingChat) {
-    // User's chat ID already exists, use it
+    // Se o chat já existe, será utilizado
     const chatId = existingChat.chatId
 
     const timestamp = new Date().toLocaleString();
@@ -96,10 +96,10 @@ botInstance.bot.on('text', async (ctx) => {
       console.error('Error saving message to MongoDB:', error);
     }
   } else {
-    // Generate a new chat ID for this user
+    // Gera um novo chatId para o usuário
     chatId = generateChatId(userId);
 
-    // Create a new chat entry in the database
+    // Cria um chat Novo
     const newChat = new Chat({ userId, chatId })
     await newChat.save()
 
@@ -125,9 +125,6 @@ botInstance.bot.on('text', async (ctx) => {
     }
   }
 });
-
-// url 
-// https://api.telegram.org/token do bot/getUpdates
 
 server.listen(3000, () => {
   console.log('Websocket is running on port 3000')
