@@ -67,6 +67,8 @@ Após isso rode a aplicação com o comando:
 
 Deixe ela rodando enquanto utilizar o sistema completo.
 
+Obs.: Copie o link que o aplicativo oferece do HTTPS para colocar na variável SERVER_URL do arquivo .env
+
 ### Back-end e websocket
 
 Realize o git clone do projeto e rode o comando npm i no terminal que desejar antes de iniciar a aplicação
