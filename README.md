@@ -27,9 +27,7 @@ O Back-end foi divido entre sete pastas no diretório principal:
 
 ### Telegram Bot API
 
-Se for necessário criar um outro bot para testar o sistema, crie um novo bot com o botFather do telegram e pegue o token que ele te oferecer. Após isso inicie uma conversa com o bot no telegram e veja o resultado no sistema (com tudo rodando).
-
-Obs.: Acredito que não há problema compartilhar o token do bot que utilizo, porém se houver crie outro bot a partir das informações no início.
+Crie um bot para testar o sistema com o botFather do telegram e pegue o token que ele te oferecer. Guarde o token do bot em seu arquivo .env como o "TOKEN" no arquivo mostrado mais abaixo.
 
 ### Webhook
 
@@ -37,7 +35,7 @@ Para receber as mensagens da API do telegram foi necessário criar um webhook co
 
 ### Websocket
 
-Para passar as mensagens recebidas do Back-End para o Front-End foi necessário criar um websocket em que o Front-End, ao carregar a tela de mensagens irá se conectar como cliente, e ao tratar as mensagens recebidas do webhook, vai passá-las para o socket que irá distribuir todas as novas mensagens para todos os clientes que estiverem conectados (no caso, apenas a aba que será testada ou a que está hospedada)
+Para passar as mensagens recebidas do Back-End para o Front-End foi necessário criar um websocket em que o Front-End, ao carregar a tela de mensagens irá se conectar como cliente, e ao tratar as mensagens recebidas do webhook, vai passá-las para o socket que irá distribuir todas as novas mensagens para todos os clientes que estiverem conectados (no caso, apenas a aba que será testada ou a que está hospedada).
 
 ### MongoDB Atlas
 
@@ -47,13 +45,13 @@ Foi o banco de dados NoSQL escolhido para guardar as informações da aplicaçã
 
 ### MongoDB Atlas 
 
-Crie uma conta no mongoDB para utilizar o Atlas, realize as configurações iniciais (criação de conta, de acesso remoto, referente ao endereço IP) e depois mude as configurações (.env) que necessitam das informações no banco de dados
+Crie uma conta no mongoDB para utilizar o Atlas, realize as configurações iniciais (criação de conta, de acesso remoto, referente ao endereço IP) e depois mude as configurações (.env) que necessitam das informações no banco de dados.
 
 Obs.: Não seria muito correto disponibilizar meu acesso ao meu banco de dados, pois se fosse o caso deveria disponibilizar o acesso a qualquer pessoas com a conta, e o repositório está público.
 
 ### Ngrok (webhook)
 
-Crie uma conta e baixe a aplicação do ngrok para rodá-la na sua máquina para transmitir as atualizações do telegram via pulling
+Crie uma conta e baixe a aplicação do ngrok para rodá-la na sua máquina para transmitir as atualizações do telegram via pulling.
 
 Site: https://ngrok.com/
 
@@ -71,13 +69,13 @@ Obs.: Copie o link que o aplicativo oferece do HTTPS para colocar na variável S
 
 ### Back-end e websocket
 
-Realize o git clone do projeto e rode o comando npm i no terminal que desejar antes de iniciar a aplicação
+Realize o git clone do projeto e rode o comando npm i no terminal que desejar antes de iniciar a aplicação.
 
 ```bash
   npm install
 ```
 
-Depois crie um arquivo .env na raíz do projeto com as informações necessárias para o funcionamento da aplicação
+Depois crie um arquivo .env na raíz do projeto com as informações necessárias para o funcionamento da aplicação.
 
 Ex.:
 
@@ -89,13 +87,23 @@ TOKEN=***** // Token do bot utilizado no desenvolvimento
 SECRET_KEY="MyS&cr&tK&yT0t@llyR@nd0m" // Chave para criação de tokens de autenticação
 ```
 
-Após isso rode o projeto com o comando npm start
+Após isso rode o projeto com o comando npm start.
 
 ```bash
   nodemon index ou node index.js
 ```
 
-E pronto, o projeto já o Back-end já vai estar funcional e pode ser testado tanto em aplicativos de realizar requisições HTTP, como no Front-End (se estiver rodando)
+E pronto, o projeto já o Back-end já vai estar funcional e pode ser testado tanto em aplicativos de realizar requisições HTTP, como no Front-End (se estiver rodando).
+
+### Telegram Bot API
+
+Após isso inicie uma conversa com o bot no telegram e veja o resultado no sistema (com tudo rodando).
+
+- Criando novo chat: Um novo código será recebido e salvo no banco de dados. Assim surgirá um novo chat no lado esquerdo do site com o link para a conversa daquele chat. Utilize o refresh no icone de seta roxa do lado do "ChatId" para recarregar. Obs.: Se houver algum erro ao fazer isso apenas recarregue a página.
+
+-Recebendo mensagens do telegram: Digite as mensagens pelo chat do telegram e veja o resultado no Front-End, sem precisar recarregar a página. 
+
+-Enviando mensagens para o telegram: Envie a mensagem pela própria interface do Front-End e veja o resultado no Front-End e no telegram.
     
 ## Bibliotecas utilizadas
 
