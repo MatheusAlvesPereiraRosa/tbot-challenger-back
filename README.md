@@ -57,6 +57,12 @@ Site: https://ngrok.com/
 
 Depois de configurar a sua conta e baixar o aplicativo, deszipe (unzipe) o arquivo zipado e abra o aplicativo.
 
+Salve a configuraçõa da sua chave com o comando a seguir:
+
+```bash
+  ngrok config add-authtoken ****** (seu token em "*")
+```
+
 Após isso rode a aplicação com o comando:
 
 ```bash
