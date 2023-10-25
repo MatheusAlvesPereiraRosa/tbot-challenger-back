@@ -101,9 +101,9 @@ Depois de tudo isso, no Front-End, inicie uma conversa com o bot no telegram e v
 
 - Criando novo chat: Um novo código será recebido e salvo no banco de dados. Assim surgirá um novo chat no lado esquerdo do site com o link para a conversa daquele chat. Utilize o refresh no icone de seta roxa do lado do "ChatId" para recarregar. Obs.: Se houver algum erro ao fazer isso apenas recarregue a página.
 
--Recebendo mensagens do telegram: Digite as mensagens pelo chat do telegram e veja o resultado no Front-End, sem precisar recarregar a página. 
+- Recebendo mensagens do telegram: Digite as mensagens pelo chat do telegram e veja o resultado no Front-End, sem precisar recarregar a página. 
 
--Enviando mensagens para o telegram: Envie a mensagem pela própria interface do Front-End e veja o resultado no Front-End e no telegram.
+- Enviando mensagens para o telegram: Envie a mensagem pela própria interface do Front-End e veja o resultado no Front-End e no telegram.
     
 ## Bibliotecas utilizadas
 
