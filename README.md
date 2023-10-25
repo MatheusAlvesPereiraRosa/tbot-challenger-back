@@ -25,6 +25,12 @@ O Back-end foi divido entre sete pastas no diretório principal:
 
 - Sockets: É onde fica a criação do websocket para transmissão das mensagens
 
+### Telegram Bot API
+
+Se for necessário criar um outro bot para testar o sistema, crie um novo bot com o botFather do telegram e pegue o token que ele te oferecer. Após isso inicie uma conversa com o bot no telegram e veja o resultado no sistema (com tudo rodando).
+
+Obs.: Acredito que não há problema compartilhar o token do bot que utilizo, porém se houver crie outro bot a partir das informações no início.
+
 ### Webhook
 
 Para receber as mensagens da API do telegram foi necessário criar um webhook com o Ngrok (tecnologia escolhida para essa função) utilizando a técnica do pulling para o webhook receber mensagens novas, a todo momento em que eram enviadas, e passá-las para as rotas do Back-End e/ou realizar requisições ao banco de dados para salvá-las.
@@ -42,6 +48,8 @@ Foi o banco de dados NoSQL escolhido para guardar as informações da aplicaçã
 ### MongoDB Atlas 
 
 - Caso queira testar com banco de dados próprio: Crie uma conta no mongoDB para utilizar o Atlas, realize as configurações iniciais (criação de conta, de acesso remoto, referente ao endereço IP) e depois mude as configurações que necessitam das informações no banco de dados
+
+- Caso queira testar com o banco de dados que eu usei para testar: Use essas configurações no arquivo .env (DB_USER=tbot-challenge-back DB_PASS=7iTVg07VUIvCgtEv)
 
 ### Ngrok (webhook)
 
@@ -65,6 +73,18 @@ Realize o git clone do projeto e rode o comando npm i no terminal que desejar an
 
 ```bash
   npm install
+```
+
+Depois crie um arquivo .env na raíz do projeto com as informações necessárias para o funcionamento da aplicação
+
+Ex.:
+
+```bash
+DB_USER=tbot-challenge-back // Conta da aplicação no mongoDB Atlas
+DB_PASS=7iTVg07VUIvCgtEv // Senha da aplicação no mongoDB Atlas
+SERVER_URL=*****
+TOKEN=***** // Token do bot utilizado no desenvolvimento
+SECRET_KEY="MyS&cr&tK&yT0t@llyR@nd0m" // Chave para criação de tokens de autenticação
 ```
 
 Após isso rode o projeto com o comando npm start
