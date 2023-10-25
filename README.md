@@ -47,9 +47,9 @@ Foi o banco de dados NoSQL escolhido para guardar as informações da aplicaçã
 
 ### MongoDB Atlas 
 
-- Caso queira testar com banco de dados próprio: Crie uma conta no mongoDB para utilizar o Atlas, realize as configurações iniciais (criação de conta, de acesso remoto, referente ao endereço IP) e depois mude as configurações que necessitam das informações no banco de dados
+Crie uma conta no mongoDB para utilizar o Atlas, realize as configurações iniciais (criação de conta, de acesso remoto, referente ao endereço IP) e depois mude as configurações (.env) que necessitam das informações no banco de dados
 
-- Caso queira testar com o banco de dados que eu usei para testar: Use essas configurações no arquivo .env (DB_USER=tbot-challenge-back DB_PASS=7iTVg07VUIvCgtEv)
+Obs.: Não seria muito correto disponibilizar meu acesso ao meu banco de dados, pois se fosse o caso deveria disponibilizar o acesso a qualquer pessoas com a conta, e o repositório está público.
 
 ### Ngrok (webhook)
 
@@ -82,9 +82,9 @@ Depois crie um arquivo .env na raíz do projeto com as informações necessária
 Ex.:
 
 ```bash
-DB_USER=tbot-challenge-back // Conta da aplicação no mongoDB Atlas
-DB_PASS=7iTVg07VUIvCgtEv // Senha da aplicação no mongoDB Atlas
-SERVER_URL=*****
+DB_USER=***** // Conta da aplicação no mongoDB Atlas
+DB_PASS=***** // Senha da aplicação no mongoDB Atlas
+SERVER_URL=***** // URL disponivel no terminal do Ngrok
 TOKEN=***** // Token do bot utilizado no desenvolvimento
 SECRET_KEY="MyS&cr&tK&yT0t@llyR@nd0m" // Chave para criação de tokens de autenticação
 ```
