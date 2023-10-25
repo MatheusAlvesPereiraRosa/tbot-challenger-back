@@ -25,10 +25,6 @@ O Back-end foi divido entre sete pastas no diretório principal:
 
 - Sockets: É onde fica a criação do websocket para transmissão das mensagens
 
-### Telegram Bot API
-
-Crie um bot para testar o sistema com o botFather do telegram e pegue o token que ele te oferecer. Guarde o token do bot em seu arquivo .env como o "TOKEN" no arquivo mostrado mais abaixo.
-
 ### Webhook
 
 Para receber as mensagens da API do telegram foi necessário criar um webhook com o Ngrok (tecnologia escolhida para essa função) utilizando a técnica do pulling para o webhook receber mensagens novas, a todo momento em que eram enviadas, e passá-las para as rotas do Back-End e/ou realizar requisições ao banco de dados para salvá-las.
@@ -42,6 +38,10 @@ Para passar as mensagens recebidas do Back-End para o Front-End foi necessário 
 Foi o banco de dados NoSQL escolhido para guardar as informações da aplicação, que possui acesso via Web e não possui gastos iniciais para ser utilizado. A database deve ser criada antes de realizar a criação das coleções (que são criadas automaticamente devido a utilização do ORM mongoose). A aplicação irá utilizar três coleções, sendo elas uma para os usuários (users), uma para as conversas (chats) e outra para as mensagens em si (messages).
 
 ## Funcionamento da aplicação
+
+### Telegram Bot API
+
+Crie um bot para testar o sistema com o botFather do telegram e pegue o token que ele te oferecer. Guarde o token do bot em seu arquivo .env como o "TOKEN" no arquivo mostrado mais abaixo.
 
 ### MongoDB Atlas 
 
@@ -97,7 +97,7 @@ E pronto, o projeto já o Back-end já vai estar funcional e pode ser testado ta
 
 ### Telegram Bot API
 
-Após isso inicie uma conversa com o bot no telegram e veja o resultado no sistema (com tudo rodando).
+Depois de tudo isso, no Front-End, inicie uma conversa com o bot no telegram e veja o resultado no sistema (com tudo rodando).
 
 - Criando novo chat: Um novo código será recebido e salvo no banco de dados. Assim surgirá um novo chat no lado esquerdo do site com o link para a conversa daquele chat. Utilize o refresh no icone de seta roxa do lado do "ChatId" para recarregar. Obs.: Se houver algum erro ao fazer isso apenas recarregue a página.
 
